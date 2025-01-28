@@ -6,8 +6,8 @@ Here’s a **well-structured and professional README.md** for your **Next.js, Ta
 
 _A modern ticketing application built with Next.js, Tailwind CSS, and MongoDB._
 
-![Next.js](https://img.shields.io/badge/Next.js-13.4.13-blue)  
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.3.3-blue)  
+![Next.js](https://img.shields.io/badge/Next.js-15.1.6-blue)  
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.17-blue)  
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-green)
 
 ---
