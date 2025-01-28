@@ -4,9 +4,25 @@ import DeleteBlock from "./DeleteBlock";
 import ProgressDisplay from "./ProgressDisplay";
 import Link from "next/link";
 
-const TicketCard = ({ ticket }) => {
-  function formatTimestamp(timestamp) {
-    const options = {
+// Define the Ticket type
+interface Ticket {
+  _id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  priority: string;
+  progress: number;
+  status: string;
+}
+
+// Define props for the component
+interface TicketCardProps {
+  ticket: Ticket;
+}
+
+const TicketCard: React.FC<TicketCardProps> = ({ ticket }) => {
+  function formatTimestamp(timestamp: string): string {
+    const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
@@ -16,9 +32,7 @@ const TicketCard = ({ ticket }) => {
     };
 
     const date = new Date(timestamp);
-    const formattedDate = date.toLocaleString("en-US", options);
-
-    return formattedDate;
+    return date.toLocaleString("en-US", options);
   }
 
   const createdDateTime = formatTimestamp(ticket.createdAt);
@@ -33,16 +47,16 @@ const TicketCard = ({ ticket }) => {
       </div>
       <Link href={`/TicketPage/${ticket._id}`} style={{ display: "contents" }}>
         <h4 className="mb-1">{ticket.title}</h4>
-        <hr className="h-px  border-0 bg-page mb-2 "></hr>
+        <hr className="h-px border-0 bg-page mb-2" />
         <p className="whitespace-pre-wrap">{ticket.description}</p>
 
         <div className="flex-grow"></div>
         <div className="flex mt-2">
           <div className="flex flex-col">
-            <p className="text-xs  my-1">{createdDateTime}</p>
+            <p className="text-xs my-1">{createdDateTime}</p>
             <ProgressDisplay progress={ticket.progress} />
           </div>
-          <div className="ml-auto  flex items-end">
+          <div className="ml-auto flex items-end">
             <StatusDisplay status={ticket.status} />
           </div>
         </div>
