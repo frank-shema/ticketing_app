@@ -1,66 +1,41 @@
-import EditTicketForm from "@/app/(components)/EditTicketForm";
+import EditTicketForm from "../../(components)/EditTicketForm";
 
-const getTicketById = async (id) => {
+interface Ticket {
+  _id: string;
+  [key: string]: any;
+}
+
+const getTicketById = async (id: string): Promise<Ticket | null> => {
   try {
     const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
       cache: "no-store",
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch topic");
+      throw new Error("Failed to fetch ticket");
     }
 
-    return res.json();
+    const data = await res.json();
+    return data.foundTicket;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return null;
   }
 };
 
-let updateTicketData = {};
-const TicketPage = async ({ params }) => {
-  const EDITMODE = params.id ===import EditTicketForm from "@/app/(components)/EditTicketForm";
+interface TicketPageProps {
+  params: { id: string };
+}
 
-const getTicketById = async (id) => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
-      cache: "no-store",
-    });
+const TicketPage = async ({ params }: TicketPageProps) => {
+  const EDITMODE = params.id !== "new";
+  let updateTicketData: Ticket = { _id: "new" };
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch topic");
+  if (EDITMODE) {
+    const ticket = await getTicketById(params.id);
+    if (ticket) {
+      updateTicketData = ticket;
     }
-
-    return res.json();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-let updateTicketData = {};
-const TicketPage = async ({ params }) => {
-  const EDITMODE = params.id === "new" ? false : true;
-
-  if (EDITMODE) {
-    updateTicketData = await getTicketById(params.id);
-    updateTicketData = updateTicketData.foundTicket;
-  } else {
-    updateTicketData = {
-      _id: "new",
-    };
-  }
-
-  return <EditTicketForm ticket={updateTicketData} />;
-};
-
-export default TicketPage; "new" ? false : true;
-
-  if (EDITMODE) {
-    updateTicketData = await getTicketById(params.id);
-    updateTicketData = updateTicketData.foundTicket;
-  } else {
-    updateTicketData = {
-      _id: "new",
-    };
   }
 
   return <EditTicketForm ticket={updateTicketData} />;
