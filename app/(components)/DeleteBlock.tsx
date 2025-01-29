@@ -21,7 +21,7 @@ const DeleteBlock: React.FC<DeleteBlockProps> = ({ id }) => {
     if (res.ok) {
       router.refresh();
     }
-  };This is the world   // Return the delete block
+  }; // Return the delete block
 
   return (
     <FontAwesomeIcon
