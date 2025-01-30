@@ -1,35 +1,34 @@
+import { NextPage } from "next";
 import EditTicketForm from "../../(components)/EditTicketForm";
-
-interface Ticket {
-  _id: string;
-  [key: string]: any;
-}
-
-const getTicketById = async (id: string): Promise<Ticket | null> => {
-  try {
-    const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch ticket");
-    }
-
-    const data = await res.json();
-    return data.foundTicket;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-};
+import { Ticket } from "@/models/Ticket"; // Adjust path based on your project structure
 
 interface TicketPageProps {
   params: { id: string };
 }
 
-const TicketPage = async ({ params }: TicketPageProps) => {
+// Fetch Ticket from PostgreSQL
+const getTicketById = async (id: string) => {
+  try {
+    const ticket = await Ticket.findByPk(id);
+    return ticket ? ticket.toJSON() : null;
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    return null;
+  }
+};
+
+const TicketPage: NextPage<TicketPageProps> = async ({ params }) => {
   const EDITMODE = params.id !== "new";
-  let updateTicketData: Ticket = { _id: "new" };
+  let updateTicketData = {
+    id: "new",
+    title: "",
+    description: "",
+    category: "",
+    priority: 1,
+    progress: 0,
+    status: "Open",
+    active: true,
+  };
 
   if (EDITMODE) {
     const ticket = await getTicketById(params.id);
