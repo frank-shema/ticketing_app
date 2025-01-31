@@ -1,8 +1,7 @@
 import { NextPage } from "next";
 import EditTicketForm from "../../(components)/EditTicketForm";
 
-import { Ticket } from "../../../models"; // Adjust path based on your project structure
-// Adjust path based on your project structure
+import { Ticket } from "@/app/api/Tickets/models/Ticket";
 
 interface TicketPageProps {
   params: { id: string };
