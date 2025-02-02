@@ -10,6 +10,7 @@ interface TicketPageProps {
 // Fetch Ticket from PostgreSQL
 const getTicketById = async (id: string) => {
   try {
+    // this is a ticket application
     const ticket = await Ticket.findByPk(id);
     return ticket ? ticket.toJSON() : null;
   } catch (error) {
