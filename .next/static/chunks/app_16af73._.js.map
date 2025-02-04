@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///home/frank/Documents/projects%20/ticketing_app/app/%28components%29/DeleteBlock.jsx"],"sourcesContent":["\"use client\";\n\nimport { faX } from \"@fortawesome/free-solid-svg-icons\";\nimport { FontAwesomeIcon } from \"@fortawesome/react-fontawesome\";\nimport { useRouter } from \"next/navigation\";\n\nconst DeleteBlock = ({ id }) => {\n  const router = useRouter();\n\n  const deleteTicket = async () => {\n    const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {\n      method: \"DELETE\",\n    });\n    if (res.ok) {\n      router.refresh();\n    }\n  };\n\n  return (\n    <FontAwesomeIcon\n      icon={faX}\n      className=\" text-red-400 hover:cursor-pointer hover:text-red-200\"\n      onClick={deleteTicket}\n    />\n  );\n};\n\nexport default DeleteBlock;\n"],"names":[],"mappings":";;;;AAGA;AACA;AAFA;;;AAFA;;;;AAMA,MAAM,cAAc,CAAC,EAAE,EAAE,EAAE;;IACzB,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IAEvB,MAAM,eAAe;QACnB,MAAM,MAAM,MAAM,MAAM,CAAC,kCAAkC,EAAE,IAAI,EAAE;YACjE,QAAQ;QACV;QACA,IAAI,IAAI,EAAE,EAAE;YACV,OAAO,OAAO;QAChB;IACF;IAEA,qBACE,6LAAC,uKAAA,CAAA,kBAAe;QACd,MAAM,2KAAA,CAAA,MAAG;QACT,WAAU;QACV,SAAS;;;;;;AAGf;GAnBM;;QACW,qIAAA,CAAA,YAAS;;;KADpB;uCAqBS"}},
+    {"offset": {"line": 53, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

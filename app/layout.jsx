@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
           </div>
         </div>
       </body>
-      This is the world
     </html>
   );
 }
