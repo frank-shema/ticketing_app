@@ -2,68 +2,63 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-// Define the expected ticket structure
-interface Ticket {
-  _id: string;
-  title: string;
-  description: string;
-  priority: number;
-  progress: number;
-  status: string;
-  category: string;
-}
-
-// Define the props for the form
-interface EditTicketFormProps {
-  ticket: Ticket;
-}
-
-const EditTicketForm: React.FC<EditTicketFormProps> = ({ ticket }) => {
-  const EDITMODE = ticket._id !== "new";
+const EditTicketForm = ({ ticket }) => {
+  const EDITMODE = ticket._id === "new" ? false : true;
   const router = useRouter();
-
-  const startingTicketData: Ticket = {
-    _id: ticket._id,
-    title: EDITMODE ? ticket.title : "",
-    description: EDITMODE ? ticket.description : "",
-    priority: EDITMODE ? ticket.priority : 1,
-    progress: EDITMODE ? ticket.progress : 0,
-    status: EDITMODE ? ticket.status : "not started",
-    category: EDITMODE ? ticket.category : "Hardware Problem",
+  const startingTicketData = {
+    title: "",
+    description: "",
+    priority: 1,
+    progress: 0,
+    status: "not started",
+    category: "Hardware Problem",
   };
 
-  const [formData, setFormData] = useState<Ticket>(startingTicketData);
+  if (EDITMODE) {
+    startingTicketData["title"] = ticket.title;
+    startingTicketData["description"] = ticket.description;
+    startingTicketData["priority"] = ticket.priority;
+    startingTicketData["progress"] = ticket.progress;
+    startingTicketData["status"] = ticket.status;
+    startingTicketData["category"] = ticket.category;
+  }
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
+  const [formData, setFormData] = useState(startingTicketData);
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]:
-        name === "priority" || name === "progress" ? Number(value) : value, // Convert to number where needed
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setFormData((preState) => ({
+      ...preState,
+      [name]: value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const url = EDITMODE ? `/api/Tickets/${ticket._id}` : "/api/Tickets";
-    const method = EDITMODE ? "PUT" : "POST";
-
-    const res = await fetch(url, {
-      method,
-      headers: {
+    if (EDITMODE) {
+      const res = await fetch(`/api/Tickets/${ticket._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ formData }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update ticket");
+      }
+    } else {
+      const res = await fetch("/api/Tickets", {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        //@ts-ignore
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to ${EDITMODE ? "update" : "create"} ticket`);
+      });
+      if (!res.ok) {
+        throw new Error("Failed to create ticket");
+      }
     }
 
     router.refresh();
@@ -73,47 +68,44 @@ const EditTicketForm: React.FC<EditTicketFormProps> = ({ ticket }) => {
   const categories = [
     "Hardware Problem",
     "Software Problem",
-    "Application Development",
+    "Application Deveopment",
     "Project",
   ];
 
   return (
-    <div className="flex justify-center">
+    <div className=" flex justify-center">
       <form
         onSubmit={handleSubmit}
         method="post"
         className="flex flex-col gap-3 w-1/2"
       >
         <h3>{EDITMODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
-
-        <label htmlFor="title">Title</label>
+        <label>Title</label>
         <input
           id="title"
           name="title"
           type="text"
           onChange={handleChange}
-          required
+          required={true}
           value={formData.title}
         />
-
-        <label htmlFor="description">Description</label>
+        <label>Description</label>
         <textarea
           id="description"
           name="description"
           onChange={handleChange}
-          required
+          required={true}
           value={formData.description}
-          rows={5}
+          rows="5"
         />
-
-        <label htmlFor="category">Category</label>
+        <label>Category</label>
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
         >
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
+          {categories?.map((category, _index) => (
+            <option key={_index} value={category}>
               {category}
             </option>
           ))}
@@ -121,22 +113,53 @@ const EditTicketForm: React.FC<EditTicketFormProps> = ({ ticket }) => {
 
         <label>Priority</label>
         <div>
-          {[1, 2, 3, 4, 5].map((num) => (
-            <React.Fragment key={num}>
-              <input
-                id={`priority-${num}`}
-                name="priority"
-                type="radio"
-                onChange={handleChange}
-                value={num}
-                checked={formData.priority === num}
-              />
-              <label htmlFor={`priority-${num}`}>{num}</label>
-            </React.Fragment>
-          ))}
+          <input
+            id="priority-1"
+            name="priority"
+            type="radio"
+            onChange={handleChange}
+            value={1}
+            checked={formData.priority == 1}
+          />
+          <label>1</label>
+          <input
+            id="priority-2"
+            name="priority"
+            type="radio"
+            onChange={handleChange}
+            value={2}
+            checked={formData.priority == 2}
+          />
+          <label>2</label>
+          <input
+            id="priority-3"
+            name="priority"
+            type="radio"
+            onChange={handleChange}
+            value={3}
+            checked={formData.priority == 3}
+          />
+          <label>3</label>
+          <input
+            id="priority-4"
+            name="priority"
+            type="radio"
+            onChange={handleChange}
+            value={4}
+            checked={formData.priority == 4}
+          />
+          <label>4</label>
+          <input
+            id="priority-5"
+            name="priority"
+            type="radio"
+            onChange={handleChange}
+            value={5}
+            checked={formData.priority == 5}
+          />
+          <label>5</label>
         </div>
-
-        <label htmlFor="progress">Progress</label>
+        <label>Progress</label>
         <input
           type="range"
           id="progress"
@@ -146,14 +169,12 @@ const EditTicketForm: React.FC<EditTicketFormProps> = ({ ticket }) => {
           max="100"
           onChange={handleChange}
         />
-
-        <label htmlFor="status">Status</label>
+        <label>Status</label>
         <select name="status" value={formData.status} onChange={handleChange}>
           <option value="not started">Not Started</option>
           <option value="started">Started</option>
           <option value="done">Done</option>
         </select>
-
         <input
           type="submit"
           className="btn max-w-xs"
