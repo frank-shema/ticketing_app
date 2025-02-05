@@ -16,6 +16,7 @@ const StatusDisplay = ({ status }) => {
       default:
         color = "bg-slate-700";
     }
+    // this is the world
     return color;
   };
   return (
