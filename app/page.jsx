@@ -46,6 +46,7 @@ const Dashboard = async () => {
                       id={_index}
                       key={_index}
                       ticket={filteredTicket}
+                      // keys being added
                     />
                   ))}
               </div>
