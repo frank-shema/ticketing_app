@@ -29,3 +29,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+// this is a well refined ticket app with nextjs
