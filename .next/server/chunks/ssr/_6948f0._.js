@@ -20,12 +20,14 @@ const StatusDisplay = ({ status })=>{
             case "started":
                 color = "bg-yellow-200";
                 return color;
+            // today am so tired that I cant commit
             case "not started":
                 color = "bg-red-200";
                 return color;
             default:
                 color = "bg-slate-700";
         }
+        // this is the world
         return color;
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -33,7 +35,7 @@ const StatusDisplay = ({ status })=>{
         children: status
     }, void 0, false, {
         fileName: "[project]/app/(components)/StatusDisplay.jsx",
-        lineNumber: 22,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 };

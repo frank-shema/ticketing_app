@@ -173,7 +173,7 @@ function RootLayout({ children }) {
         lineNumber: 19,
         columnNumber: 5
     }, this);
-}
+} // this is a well refined ticket app with nextjs
 }}),
 "[project]/app/layout.jsx [app-rsc] (ecmascript, Next.js server component)": ((__turbopack_context__) => {
 
