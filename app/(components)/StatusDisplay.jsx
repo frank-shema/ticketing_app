@@ -9,6 +9,7 @@ const StatusDisplay = ({ status }) => {
       case "started":
         color = "bg-yellow-200";
         return color;
+      // today am so tired that I cant commit
 
       case "not started":
         color = "bg-red-200";
