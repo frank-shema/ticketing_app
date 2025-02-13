@@ -15,6 +15,7 @@ const DeleteBlock = ({ id }) => {
       router.refresh();
     }
   };
+  // this is the router refresh
 
   return (
     <FontAwesomeIcon
