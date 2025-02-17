@@ -7,23 +7,28 @@ const getTicketById = async (id) => {
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch topic");
+      throw new Error("Failed to fetch ticket");
     }
 
     return res.json();
   } catch (error) {
     console.log(error);
+    return null; // In case of error, return null to handle gracefully
   }
 };
 
-let updateTicketData = {};
 const TicketPage = async ({ params }) => {
-  const EDITMODE = params.id === "new" ? false : true;
+  const { id } = params; // Destructure `id` from `params`
+
+  const EDITMODE = id === "new" ? false : true;
+  let updateTicketData = {};
 
   if (EDITMODE) {
-    updateTicketData = await getTicketById(params.id);
-    updateTicketData = updateTicketData.foundTicket;
+    // Fetch the ticket if not "new"
+    const ticketData = await getTicketById(id);
+    updateTicketData = ticketData ? ticketData.foundTicket : {};
   } else {
+    // If it's "new", set up the data for creating a new ticket
     updateTicketData = {
       _id: "new",
     };
